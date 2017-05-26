@@ -1,0 +1,5 @@
+#忽略前后端模块
+be/node_modules
+be/dist
+fe/node_modules
+
