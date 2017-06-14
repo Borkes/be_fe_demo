@@ -12,10 +12,11 @@ var express = require('express');
 var router = express.Router();
 
 router.get('/', function (req, res) {
-    res.redirect('/index');
+    res.send('hello')
 })
 router.get('/hello', function(req, res) {
-  res.redirect('/hello');
+  //res.redirect('/hello');
+   res.send('world')
 })
 
 module.exports = router;
