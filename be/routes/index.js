@@ -16,6 +16,7 @@ router.get('/', function (req, res) {
 })
 router.get('/hello', function(req, res) {
   //res.redirect('/hello');
+  console.log(req.route, req.ip, req.ips)
    res.send('world')
 })
 
