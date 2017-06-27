@@ -4,9 +4,11 @@ const http = require('http')
 const https = require('https')
 const express = require('express');
 const session = require('express-session');
+const redisStore = require('connect-redis')(session);
 const bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 const log4js = require('log4js');
+const middle = require('./middlewares')
 const app = express();
 app.use(cookieParser()); //使用cookie
 // 设置模板目录
@@ -21,15 +23,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true})); //for parsing application/x-www-form-urlencoded
 app.use(log4js.connectLogger(log4js.getLogger('main'), { level: 'AUTO', format: ':remote-addr :method :url :status :response-time ms' }))
 // session 中间件
-app.use(session({
-  name: 'cookie-key',// 设置 cookie 中保存 session id 的字段名称
-  secret: 'session.secret',// 通过设置 secret 来计算 hash 值并放在 cookie 中，使产生的 signedCookie 防篡改
-  resave: true,// 强制更新 session
-  saveUninitialized: false,// 设置为 false，强制创建一个 session，即使用户未登录
-  cookie: {
-    maxAge: 60// 过期时间，过期后 cookie 中的 session id 自动删除
-  }
-}));
+app.use(middle.session(redisStore));
 
 // 自动路由
 const routers = app.get('routes');
@@ -72,10 +66,10 @@ http.createServer(app).listen(3000, function() {
   console.log('hello world http 3000')
 });
 //https 没有安全证书
-const option = {
+/*const option = {
   key: fs.readFileSync('ssh_key.pem'),
   cert: fs.readFileSync('ssh_cert.pem')
 }
 https.createServer(option, app).listen(4443, function() {
   console.log('hello world https 4433')
-});
+});*/
