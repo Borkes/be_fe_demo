@@ -62,6 +62,11 @@ app.listen = function(...arg) {
 }
 
 */
+
+process.on('uncatchException', (err) => {
+  console.log(err);
+})
+
 http.createServer(app).listen(3000, function() {
   console.log('hello world http 3000')
 });
