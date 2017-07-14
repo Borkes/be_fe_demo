@@ -17,7 +17,7 @@ let middleware = function(redisStore) {
         secret: 'session.secret',// 通过设置 secret 来计算 hash 值并放在 cookie 中，使产生的 signedCookie 防篡改
         resave: true,// 强制更新 session
         store: redisStoreClient,
-        //saveUninitialized: false,// 设置为 false，强制创建一个 session，即使用户未登录
+        saveUninitialized: false,// 设置为 false，强制创建一个 session，即使用户未登录
         cookie: {
             maxAge: 60// 过期时间，过期后 cookie 中的 session id 自动删除
         }

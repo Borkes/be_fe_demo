@@ -10,6 +10,9 @@ var cookieParser = require('cookie-parser');
 const log4js = require('log4js');
 const middle = require('./middlewares')
 const app = express();
+const dbconfig = require('./config/config_test').dbConfig;
+global.DB = require('./util/db');
+
 app.use(cookieParser()); //使用cookie
 // 设置模板目录
 app.set('views', path.join(__dirname, 'views'));
@@ -50,7 +53,7 @@ app.use(function(req, res, next) {
   err.status = 404;
   res.send(err.message)
 })
-console.log(app.routes);
+
 // 监听端口，启动程序
 /*app.listen(4000, function () {
   console.log('hello world?');
@@ -67,8 +70,8 @@ process.on('uncatchException', (err) => {
   console.log(err);
 })
 
-http.createServer(app).listen(3000, function() {
-  console.log('hello world http 3000')
+http.createServer(app).listen(8088, function() {
+  console.log('hello world http 8088')
 });
 //https 没有安全证书
 /*const option = {
